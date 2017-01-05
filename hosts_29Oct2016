@@ -61,7 +61,7 @@
 
 [windows]
 172.16.100.222 
-172.16.50.29   ansible_user=sageuser@CONNS.COM ansible_password=K>9Qt(B#Na  ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+172.16.50.29   ansible_user=sageuser@CONNS.COM ansible_password=*****  ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
 
 
 [jmeter-master]
