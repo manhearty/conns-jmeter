@@ -4,7 +4,7 @@
   tasks:
 
           - local_action: shell /usr/bin/smtp-cli --host  smtp.exg6.exghost.com --from="Pratik Tiwari <ptiwari@etouch.net>" \
-                          --user=ptiwari@etouch.net --pass='eTouch1234' \
+                          --user=ptiwari@etouch.net --pass='*******' \
                           --port=587 \
                           --to mnadar@etouch.net \
                           --subject "Jmeter Log" \
