@@ -1,0 +1,51 @@
+---
+ - name: Provision EC2 Box
+   local_action:
+     module: ec2
+     key_name: "{{ ec2_keypair }}"
+     group_id: "{{ ec2_security_group }}"
+     instance_type: "{{ ec2_instance_type }}"
+     instance_profile_name: "{{ ec2_role_name }}"
+     image: "{{ ec2_image }}"
+     vpc_subnet_id: "{{ ec2_subnet_ids|random }}"
+     region: "{{ ec2_region }}"
+     instance_tags: '{"Name":"{{ec2_tag_Name}}","Type":"{{ec2_tag_Type}}","Environment":"{{ec2_tag_Environment}}"}'
+     assign_public_ip: yes
+     wait: true
+     count: "{{ ec2_count }}"
+     volumes:
+     - device_name: /dev/sda1
+       device_type: gp2
+       volume_size: "{{ ec2_volume_size }}"
+       delete_on_termination: true
+   register: ec2
+
+ - name: Add the newly created EC2 instance(s) to the local host group (located inside the directory)
+   local_action: lineinfile
+                      dest="/etc/ansible/jmeterslavehosts"
+                      regexp={{ item.public_ip }}
+                      line="{{ item.public_ip }}  pubip={{ item.public_ip }} prvip={{ item.private_ip }} ansible_ssh_private_key_file=/etc/ansible/{{ ec2_keypair }}.pem"
+   with_items: ec2.instances
+
+
+ - name: Wait for the instances to boot by checking the ssh port
+   wait_for: host={{item.public_ip}} port=22 delay=60 timeout=320 state=started
+   with_items: ec2.instances
+
+
+
+ - local_action: shell /usr/bin/smtp-cli --host  smtp.exg6.exghost.com --from="Pratik Tiwari <ptiwari@etouch.net>" \
+                          --user=ptiwari@etouch.net --pass='eTouch1234' \
+                          --port=587 \
+                          --to mnadar@etouch.net \
+                          --cc mmulmule@etouch.net \
+                          --cc skore@etouch.net \
+                          --cc rgovil@etouch.net \
+                          --cc umulmulay@etouch.net \
+                          --cc spanda@etouch.net \
+                          --cc jagadeesh@etouch.net \
+                          --cc bupadhyaya@etouch.net \
+                          --subject "Jmeter Slave Machine IP " \
+                          --body-plain "Hello Team, Please find the Attached File for Jmeter slave Machines IP address" \
+                          --attach /etc/ansible/jmeterslavehosts
+

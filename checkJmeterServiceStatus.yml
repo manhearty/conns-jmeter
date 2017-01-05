@@ -1,0 +1,14 @@
+- hosts: jmeter-slaves:jmeter-master
+  gather_facts: False
+  tasks:
+
+
+    - name: Check if Jmeter server is running
+      command: bash -c "ps -ef | grep apache-jmeter | grep -v grep"
+      register: jmeter_status
+
+    - debug: msg="Jmeter is running on {{ pubip }}"
+      when: jmeter_status|succeeded
+
+    - debug: msg="Jmeter is NOT running on {{ pubip }}"
+      when: jmeter_status|failed

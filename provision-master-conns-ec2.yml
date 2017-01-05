@@ -1,0 +1,38 @@
+---
+ - hosts: localhost
+   connection: local
+
+   tasks:
+
+     - name: Provision EC2 Box
+       local_action:
+         module: ec2
+         key_name: "connsJmeter_nv"
+         group_id: "sg-9a608ee7"
+         instance_type: "c4.xlarge"
+         instance_profile_name: "connsJmeter"
+         image: "ami-10bfe707"
+         vpc_subnet_id: "subnet-09875c7e"
+         region: "us-east-1"
+         instance_tags: '{"Name":"jmeter","Type":"ec2","Environment":"test"}'
+         assign_public_ip: yes
+         wait: true
+         count: "1"
+         volumes:
+         - device_name: /dev/sda1
+           device_type: gp2
+           volume_size: "25"
+           delete_on_termination: true
+       register: ec2
+
+     - name: Add the newly created EC2 instances to the Group
+       local_action: lineinfile
+                          dest="/etc/ansible/hosts"
+                          regexp="{{ item.public_ip }}"
+                          insertafter="[jmeter-master]" line="{{ item.public_ip }} pubip={{ item.public_ip }} prvip={{ item.private_ip }} ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=MASTER"
+       with_items: ec2.instances
+
+
+     - name: Wait for the instances to boot by checking the ssh port
+       wait_for: host={{item.public_ip}} port=22 delay=60 timeout=320 state=started
+       with_items: ec2.instances

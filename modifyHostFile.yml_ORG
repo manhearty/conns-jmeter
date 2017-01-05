@@ -1,0 +1,16 @@
+---
+
+- hosts: localhost
+  sudo: yes
+  tasks:
+
+
+
+
+
+    - name: Add VM Index Number
+      local_action: lineinfile
+                          dest="/etc/ansible/hosts"
+                          insertafter="[jmeter-slaves]" line="{{ item[1] }} vnum=VM{{ item.0 }}"
+      with_indexed_items: "{{ groups['jmeter-slaves'] }}"
+

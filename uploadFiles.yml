@@ -1,0 +1,30 @@
+- hosts: jmeter-slaves
+  gather_facts: False
+  tasks:
+
+
+    - name: create csv directory
+      file:
+        path=/usr/local/apache-jmeter-3.0/csv-{{ csvScenario }}
+        state=directory
+        mode=0777
+
+
+#    - local_action: shell rm -rf /home/administrator/CSV.zip /home/administrator/CSV 
+
+
+    - local_action: unarchive src=/home/administrator/CSV.zip dest=/home/administrator
+      
+
+    - local_action: shell  ls -1 /home/administrator/CSV/{{ vnum }}/*
+      register: contents
+
+
+    - name: copy csv files to remote servers
+      copy:
+         src="{{ item }}"
+         dest=/usr/local/apache-jmeter-3.0/csv-{{ csvScenario }}/
+         owner=root
+         group=root
+         mode=0777
+      with_items: contents.stdout_lines

@@ -1,0 +1,18 @@
+- hosts: jmeter-slaves
+  tasks:
+
+
+    - name: create csv directory
+      file:
+        path=/usr/local/apache-jmeter-3.0/csv
+        state=directory
+        mode=0777
+
+
+    - name: copy csv files to remote servers
+      copy:
+         src=/home/mano/index.csv
+         dest=/usr/local/apache-jmeter-3.0/csv/index.csv
+         owner=root
+         group=root
+         mode=0777

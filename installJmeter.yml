@@ -1,0 +1,57 @@
+---
+
+- hosts: jmeter-slaves:jmeter-master
+  sudo: yes
+  tasks:
+
+
+    - name: Run the equivalent of "apt-get update" as a separate step
+      apt: update_cache=yes
+
+    - name: Install latest version of "openjdk-7-jre-headless" ignoring "install-recommends"
+      apt: name=openjdk-7-jre-headless state=latest install_recommends=no
+
+    - name: Install UNZIP
+      apt: name=unzip state=present
+
+
+    - name: Install ZIP
+      apt: name=zip state=present
+
+    - stat: path=/usr/local/apache-jmeter-3.0
+      register: shorewall_rules
+
+    - name: Download Apache Jmeter3.0
+      get_url: >
+        url='http://ftp.ps.pl/pub/apache//jmeter/binaries/apache-jmeter-3.0.tgz'
+        dest='/tmp/'
+      register: jmeter_tarball
+      when: shorewall_rules.stat.exists == False
+
+
+    - name: Extract Jmeter TAR
+      unarchive: >
+        src={{ jmeter_tarball.dest }}
+        dest=/usr/local
+        remote_src=yes
+        copy=no
+      when: shorewall_rules.stat.exists == False
+
+
+    - name: copy EXT JAR files to remote servers
+      copy:
+         src="/etc/ansible/jmeterExtJars.tar.gz"
+         dest=/usr/local/apache-jmeter-3.0/lib/ext
+         owner=root
+         group=root
+         mode=0777
+    
+    
+    - name: Extract EXT TAR
+      unarchive: >
+        src=/usr/local/apache-jmeter-3.0/lib/ext/jmeterExtJars.tar.gz
+        dest=/usr/local/apache-jmeter-3.0/lib/ext
+        remote_src=yes
+        copy=no
+
+

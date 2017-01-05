@@ -1,0 +1,12 @@
+ec2_keypair: "jmeter_nv"
+ec2_security_group: "sg-078b9d7d"
+ec2_instance_type: "t2.micro"
+ec2_image: "ami-2d39803a"
+ec2_subnet_ids: ['subnet-5627c120','subnet-433f071a']
+ec2_region: "us-east-1"
+ec2_tag_Name: "jmeter"
+ec2_tag_Type: "ec2"
+ec2_tag_Environment: "test"
+ec2_volume_size: 15
+ec2_role_name: "jmeterTest"
+ec2_count: 1

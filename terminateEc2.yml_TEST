@@ -1,0 +1,21 @@
+---
+ - hosts: localhost
+   connection: local
+
+   tasks:
+
+    - ec2_remote_facts:
+        filters:
+          instance-state-name: stopped
+          "tag:Name": stage-blogs.etouch.net
+        region: us-east-1
+      register: ec2_info
+
+
+
+    - name: Terminate Jmeter Instances
+      ec2:
+        state: 'absent'
+        instance_ids: "{{ item.id }}"
+        region: "{{ item.region }}"
+      with_items: ec2_info.instances

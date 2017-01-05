@@ -1,0 +1,36 @@
+---
+- hosts: linux-servers
+
+  tasks:
+
+    - name: Register todays date
+      shell: date +%F
+      register: todays_date
+
+    - name: receivedbytes
+      command: bash -c "cat /sys/class/net/eth0/statistics/rx_bytes"
+      register: r_bytes
+
+
+    - name: transferredbytes
+      command: bash -c "cat /sys/class/net/eth0/statistics/tx_bytes"
+      register: s_bytes
+
+
+#    - name: memoryutilization
+#      command: bash -c "/usr/bin/free -m | sed -ne '3p' | awk '{print ($3+1) / ($3+$4) * 100 }' "
+#      register: m_util
+
+
+#    - name: cpuutilization
+#      command: bash -c "/usr/bin/vmstat | sed -ne '3p' | awk '{ print $15 - 100 }'"
+#      register: c_util
+
+
+
+#    - debug: msg="{{ ansible_hostname }},{{ r_bytes.stdout }},{{ s_bytes.stdout }},{{ ansible_memtotal_mb }}, {{ ansible_memfree_mb }}, {{ ansible_swaptotal_mb }}, {{ ansible_swapfree_mb }}"
+
+
+    - debug: msg="{{ ansible_hostname }}, {{ item.size_total }} ,{{ item.size_available }}"
+      with_items: "{{ ansible_mounts }}"
+

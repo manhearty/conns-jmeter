@@ -1,0 +1,13 @@
+---
+
+- hosts: jmeter-master
+  tasks:
+
+          - local_action: shell /usr/bin/smtp-cli --host  smtp.exg6.exghost.com --from="Pratik Tiwari <ptiwari@etouch.net>" \
+                          --user=ptiwari@etouch.net --pass='eTouch1234' \
+                          --port=587 \
+                          --to mnadar@etouch.net \
+                          --subject "Jmeter Log" \
+                          --body-plain "Jmeter Log as on 04th Nov 2016" \
+                          --attach /home/administrator/jmeterlogs.zip
+

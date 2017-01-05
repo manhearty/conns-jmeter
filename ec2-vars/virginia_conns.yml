@@ -1,0 +1,12 @@
+ec2_keypair: "connsJmeter_nv"
+ec2_security_group: "sg-9a608ee7"
+ec2_instance_type: "c4.xlarge"
+ec2_image: "ami-10bfe707"
+ec2_subnet_ids: ['subnet-09875c7e','subnet-b2771a88','subnet-2e26dc77','subnet-2e26dc77']
+ec2_region: "us-east-1"
+ec2_tag_Name: "jmeter"
+ec2_tag_Type: "ec2"
+ec2_tag_Environment: "test"
+ec2_volume_size: 15
+ec2_role_name: "connsJmeter"
+ec2_count: 17

@@ -1,0 +1,10 @@
+- hosts: jmeter-slaves
+  gather_facts: False
+  tasks:
+
+
+    - shell: ls -1 /usr/local/apache-jmeter-3.0/csv/*
+      register: contents
+
+    - file: path={{ item }} state=absent
+      with_items: contents.stdout_lines

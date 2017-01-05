@@ -1,0 +1,20 @@
+---
+
+- hosts: jmeter-slaves:jmeter-master
+  sudo: yes
+  gather_facts: False
+  tasks:
+
+
+    - name: Add repositories
+      apt_repository: repo='ppa:openjdk-r/ppa' state=present
+
+
+    - name: Run the equivalent of "apt-get update" as a separate step
+      apt: update_cache=yes
+
+    - name: Install latest version of "openjdk-8-jdk" ignoring "install-recommends"
+      apt: name=openjdk-8-jdk state=latest install_recommends=no
+
+    - name: correct java version selected
+      alternatives: name=java path=/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java

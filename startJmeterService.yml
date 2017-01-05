@@ -1,0 +1,7 @@
+- hosts: jmeter-slaves
+  gather_facts: False
+  tasks:
+
+    - name: start jmeter service
+      command: bash -c "nohup /bin/sh /usr/local/apache-jmeter-3.0/bin/jmeter-server -Djava.rmi.server.hostname={{ pubip }} -Dserver.rmi.localport=4000 >>nohup.out 2>&1 &"
+      register: start_jmeter

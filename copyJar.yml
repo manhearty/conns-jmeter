@@ -1,0 +1,13 @@
+---
+
+- hosts: jmeter-slaves:jmeter-master
+  sudo: yes
+  tasks:
+
+
+    - name: Check if Jmeter server is running
+      command: bash -c "mv /usr/local/apache-jmeter-3.0/lib/ext/jmeterExtJars/* /usr/local/apache-jmeter-3.0/lib/ext"
+
+
+
+

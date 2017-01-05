@@ -1,0 +1,17 @@
+- hosts: jmeter-slaves
+  gather_facts: False
+  tasks:
+
+    - name: Fetch Log file remote hosts
+      fetch:
+         src=/home/ubuntu/nohup.out
+         dest=/home/administrator/jmeterlogs/{{ pubip }}-nohup.out
+         flat=yes
+
+
+    - name: Fetch jmeter-server file remote hosts
+      fetch:
+         src=/home/ubuntu/jmeter-server.log
+         dest=/home/administrator/jmeterlogs/{{ pubip }}-jmeter-server.log
+         flat=yes
+

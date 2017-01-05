@@ -1,0 +1,105 @@
+# This is the default ansible 'hosts' file.
+#
+# It should live in /etc/ansible/hosts
+#
+#   - Comments begin with the '#' character
+#   - Blank lines are ignored
+#   - Groups of hosts are delimited by [header] elements
+#   - You can enter hostnames or ip addresses
+#   - A hostname/ip can be a member of multiple groups
+
+# Ex 1: Ungrouped hosts, specify before any group headers.
+
+## green.example.com
+## blue.example.com
+## 192.168.100.1
+## 192.168.100.10
+
+# Ex 2: A collection of hosts belonging to the 'webservers' group
+
+## [webservers]
+## alpha.example.org
+## beta.example.org
+## 192.168.1.100
+## 192.168.1.110
+
+# If you have multiple hosts following a pattern you can specify
+# them like this:
+
+## www[001:006].example.com
+
+# Ex 3: A collection of database servers in the 'dbservers' group
+
+## [dbservers]
+## 
+## db01.intranet.mydomain.net
+## db02.intranet.mydomain.net
+## 10.25.1.56
+## 10.25.1.57
+
+# Here's another example of host ranges, this time there are no
+# leading 0s:
+
+## db-[99:101]-node.example.com
+
+[linux-servers]
+172.16.100.172 ansible_user=ubuntu
+172.16.100.244 ansible_user=ubuntu
+172.16.100.102 ansible_user=ubuntu
+172.16.51.89   ansible_user=ec2-user
+172.16.50.201  ansible_user=ec2-user
+172.16.100.112 ansible_user=ec2-user
+172.16.51.49   ansible_user=ec2-user
+172.16.50.208  ansible_user=ec2-user
+172.16.100.100 ansible_user=ubuntu
+172.16.51.183  ansible_user=ec2-user
+172.16.100.76  ansible_user=root
+172.16.100.135 ansible_user=root
+172.16.100.133 ansible_user=root
+172.16.100.152 ansible_user=root
+172.16.100.88  ansible_user=ubuntu
+
+[windows]
+172.16.100.222 
+172.16.50.29   ansible_user=sageuser@CONNS.COM ansible_password=K>9Qt(B#Na  ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+
+
+[jmeter-master]
+54.145.206.155  pubip=54.145.206.155 prvip=172.31.18.188 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=MASTER
+
+[jmeter-slaves]
+54.159.29.164  pubip=54.159.29.164 prvip=172.31.24.108 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM0
+54.196.30.224  pubip=54.196.30.224 prvip=172.31.24.109 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM1
+54.87.224.231  pubip=54.87.224.231 prvip=172.31.24.110 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM2
+54.208.26.90  pubip=54.208.26.90 prvip=172.31.24.111 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM3
+52.90.54.87  pubip=52.90.54.87 prvip=172.31.24.112 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM4
+54.82.241.82  pubip=54.82.241.82 prvip=172.31.24.113 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM5
+54.163.71.55  pubip=54.163.71.55 prvip=172.31.24.114 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM6
+54.198.98.254  pubip=54.198.98.254 prvip=172.31.24.115 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM7
+52.90.172.28  pubip=52.90.172.28 prvip=172.31.24.116 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM8
+54.89.114.197  pubip=54.89.114.197 prvip=172.31.24.117 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM9
+54.158.81.83  pubip=54.158.81.83 prvip=172.31.24.118 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM10
+52.87.166.85  pubip=52.87.166.85 prvip=172.31.24.119 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM11
+54.145.209.33  pubip=54.145.209.33 prvip=172.31.24.120 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM12
+54.162.198.5  pubip=54.162.198.5 prvip=172.31.24.121 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM13
+54.208.183.253  pubip=54.208.183.253 prvip=172.31.24.122 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM14
+52.201.214.38  pubip=52.201.214.38 prvip=172.31.24.123 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM15
+52.91.51.82  pubip=52.91.51.82 prvip=172.31.24.124 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_nv.pem vnum=VM16
+52.15.151.179  pubip=52.15.151.179 prvip=172.31.5.85 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM17
+52.15.148.127  pubip=52.15.148.127 prvip=172.31.5.83 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM18
+52.15.120.153  pubip=52.15.120.153 prvip=172.31.5.89 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM19
+52.15.147.236  pubip=52.15.147.236 prvip=172.31.5.88 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM20
+52.15.151.171  pubip=52.15.151.171 prvip=172.31.5.87 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM21
+52.15.151.148  pubip=52.15.151.148 prvip=172.31.5.86 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM22
+52.15.150.129  pubip=52.15.150.129 prvip=172.31.5.100 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM23
+52.15.151.136  pubip=52.15.151.136 prvip=172.31.5.99 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM24
+52.15.151.155  pubip=52.15.151.155 prvip=172.31.5.98 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM25
+52.15.149.209  pubip=52.15.149.209 prvip=172.31.5.97 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM26
+52.15.151.114  pubip=52.15.151.114 prvip=172.31.5.95 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM27
+52.15.150.225  pubip=52.15.150.225 prvip=172.31.5.94 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM28
+52.15.144.127  pubip=52.15.144.127 prvip=172.31.5.84 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM29
+52.15.151.98  pubip=52.15.151.98 prvip=172.31.5.96 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM30
+52.15.148.176  pubip=52.15.148.176 prvip=172.31.5.93 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM31
+52.15.151.104  pubip=52.15.151.104 prvip=172.31.5.92 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM32
+52.15.151.97  pubip=52.15.151.97 prvip=172.31.5.91 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM33
+#52.15.70.105  pubip=52.15.70.105 prvip=172.31.5.90 ansible_ssh_private_key_file=/etc/ansible/connsJmeter_Oh.pem vnum=VM34

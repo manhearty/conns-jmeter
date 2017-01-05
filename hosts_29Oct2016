@@ -1,0 +1,73 @@
+# This is the default ansible 'hosts' file.
+#
+# It should live in /etc/ansible/hosts
+#
+#   - Comments begin with the '#' character
+#   - Blank lines are ignored
+#   - Groups of hosts are delimited by [header] elements
+#   - You can enter hostnames or ip addresses
+#   - A hostname/ip can be a member of multiple groups
+
+# Ex 1: Ungrouped hosts, specify before any group headers.
+
+## green.example.com
+## blue.example.com
+## 192.168.100.1
+## 192.168.100.10
+
+# Ex 2: A collection of hosts belonging to the 'webservers' group
+
+## [webservers]
+## alpha.example.org
+## beta.example.org
+## 192.168.1.100
+## 192.168.1.110
+
+# If you have multiple hosts following a pattern you can specify
+# them like this:
+
+## www[001:006].example.com
+
+# Ex 3: A collection of database servers in the 'dbservers' group
+
+## [dbservers]
+## 
+## db01.intranet.mydomain.net
+## db02.intranet.mydomain.net
+## 10.25.1.56
+## 10.25.1.57
+
+# Here's another example of host ranges, this time there are no
+# leading 0s:
+
+## db-[99:101]-node.example.com
+
+[linux-servers]
+172.16.100.172 ansible_user=ubuntu
+172.16.100.244 ansible_user=ubuntu
+172.16.100.102 ansible_user=ubuntu
+172.16.51.89   ansible_user=ec2-user
+172.16.50.201  ansible_user=ec2-user
+172.16.100.112 ansible_user=ec2-user
+172.16.51.49   ansible_user=ec2-user
+172.16.50.208  ansible_user=ec2-user
+172.16.100.100 ansible_user=ubuntu
+172.16.51.183  ansible_user=ec2-user
+172.16.100.76  ansible_user=root
+172.16.100.135 ansible_user=root
+172.16.100.133 ansible_user=root
+172.16.100.152 ansible_user=root
+172.16.100.88  ansible_user=ubuntu
+
+[windows]
+172.16.100.222 
+172.16.50.29   ansible_user=sageuser@CONNS.COM ansible_password=K>9Qt(B#Na  ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+
+
+[jmeter-master]
+54.157.199.215  pubip=54.157.199.215 prvip=172.16.1.90 ansible_ssh_private_key_file=/etc/ansible/jmeter_nv.pem vnum=MASTER
+
+
+[jmeter-slaves]
+52.91.244.121  pubip=52.91.244.121 prvip=172.16.1.132 ansible_ssh_private_key_file=/etc/ansible/jmeter_nv.pem vnum=VM0
+54.153.29.45  pubip=54.153.29.45 prvip=172.31.7.255 ansible_ssh_private_key_file=/etc/ansible/jmeter_nc.pem vnum=VM1

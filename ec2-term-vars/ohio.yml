@@ -1,0 +1,4 @@
+ec2_term_Tag_Name: "jmeter"
+ec2_term_region: "us-east-2"
+ec2_term_tag_Type: "ec2"
+ec2_tag_Environment: "test"

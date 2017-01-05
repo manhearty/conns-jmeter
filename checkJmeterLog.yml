@@ -1,0 +1,11 @@
+- hosts: jmeter-slaves:jmeter-master
+  gather_facts: False
+  tasks:
+
+
+    - name: Check Jmeter Log - Last 10 lines"
+      command: bash -c "tail -n 10 /home/ubuntu/nohup.out"
+      register: jmeter_status
+
+    - debug: msg="{{ pubip }} - {{ jmeter_status }}"
+

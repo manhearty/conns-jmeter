@@ -1,0 +1,14 @@
+- hosts: jmeter-slaves:jmeter-master
+  gather_facts: False
+  tasks:
+
+
+    - name: Check if Jmeter server is running
+      command: bash -c "killall -9 java"
+      register: jmeter_status
+
+    - debug: msg="Jmeter is stopped on {{ pubip }}"
+      when: jmeter_status|succeeded
+
+    - debug: msg="Jmeter is could not be STOPPED on {{ pubip }}"
+      when: jmeter_status|failed

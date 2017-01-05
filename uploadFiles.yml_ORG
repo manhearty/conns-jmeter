@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  sudo: yes
+  tasks:
+
+
+   - debug: msg="{{ item.0 }}"
+     with_indexed_items: "{{ groups['jmeter-slaves'] }}"

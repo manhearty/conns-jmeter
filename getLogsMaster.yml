@@ -1,0 +1,17 @@
+- hosts: jmeter-master
+  gather_facts: False
+  tasks:
+
+    - name: Fetch Log file remote hosts
+      fetch:
+         src=/home/ubuntu/jmeter-server.log
+         dest=/home/administrator/jmeterlogs/{{ pubip }}-MASTER-jmeter-server.log
+         flat=yes
+
+
+    - name: Fetch Log file remote hosts
+      fetch:
+         src=/home/ubuntu/jmeter.log
+         dest=/home/administrator/jmeterlogs/{{ pubip }}-MASTER-jmeter.log
+         flat=yes
+

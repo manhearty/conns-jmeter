@@ -1,0 +1,97 @@
+- hosts: jmeter-master
+  gather_facts: False
+  vars:
+    slaveIPs: "{{ lookup('file', '/etc/ansible/lookupfile.txt') }}"
+    
+
+  tasks:
+
+    - name: Time Now
+      command: date +%Y%m%d_%H%M%S
+      register: times_now
+
+
+    - name: create csv directory
+      file:
+        path=/usr/local/apache-jmeter-3.0/output
+        state=directory
+        mode=0777
+
+
+    - name: create csv directory
+      file:
+        path=/usr/local/apache-jmeter-3.0/reports
+        state=directory
+        mode=0777
+
+
+
+    - local_action: shell awk '{ print $1 }' /etc/ansible/jmeterslavehosts | sed ':a;N;$!ba;s/\n/,/g' > /etc/ansible/lookupfile.txt
+
+    - debug: msg="/usr/local/apache-jmeter-3.0/bin/jmeter -n -t /usr/local/apache-jmeter-3.0/jmx/{{ jmxName }} -l /usr/local/apache-jmeter-3.0/output/report-{{ times_now.stdout }}.jtl -Djava.rmi.server.hostname={{ pubip }} -Dclient.rmi.localport=4001 -R {{ slaveIPs }}"
+
+    - name: Executing JMETER RUN from MASTER 
+      command: bash -c "/usr/local/apache-jmeter-3.0/bin/jmeter -n -t /usr/local/apache-jmeter-3.0/jmx/{{ jmxName }} -l /usr/local/apache-jmeter-3.0/output/report-{{ times_now.stdout }}.jtl -Djava.rmi.server.hostname={{ pubip }} -Dclient.rmi.localport=4001 -R {{ slaveIPs }}"
+      register: jmeter_runstatus
+
+
+    - debug: msg="Output of Jmeter RUN {{ jmeter_runstatus }}"
+
+
+    - name: Generate PNG
+      command: bash -c "/usr/local/apache-jmeter-3.0/lib/ext/JMeterPluginsCMD.sh --generate-png /usr/local/apache-jmeter-3.0/output/active_threads_over_time_{{ times_now.stdout }}.png --input-jtl /usr/local/apache-jmeter-3.0/output/report-{{ times_now.stdout }}.jtl --plugin-type ResponseTimesOverTime"
+      register: jmeter_pngstatus
+
+
+
+
+    - name: Generate REPORT
+      command: bash -c "/usr/local/apache-jmeter-3.0/bin/jmeter -g /usr/local/apache-jmeter-3.0/output/report-{{ times_now.stdout }}.jtl -o /usr/local/apache-jmeter-3.0/reports/reports_{{ times_now.stdout }} "
+      register: jmeter_reportstatus
+
+
+
+    - name: Archive Report Folder
+      command: bash -c "zip -r /usr/local/apache-jmeter-3.0/reports/reports_{{ times_now.stdout }}.zip /usr/local/apache-jmeter-3.0/reports/reports_{{ times_now.stdout }}"
+
+
+
+    - name: Fetch PNG from remote hosts
+      fetch: 
+         src=/usr/local/apache-jmeter-3.0/output/active_threads_over_time_{{ times_now.stdout }}.png 
+         dest=/home/administrator/reports/active_threads_over_time_{{ times_now.stdout }}.png 
+         flat=yes
+
+
+    - name: Fetch Report from remote hosts
+      fetch:
+         src=/usr/local/apache-jmeter-3.0/reports/reports_{{ times_now.stdout }}.zip
+         dest=/home/administrator/reports/reports_{{ times_now.stdout }}.zip
+         flat=yes
+
+
+
+    - name: Fetch JTL from remote hosts
+      fetch:
+         src=/usr/local/apache-jmeter-3.0/output/report-{{ times_now.stdout }}.jtl
+         dest=/home/administrator/reports/report-{{ times_now.stdout }}.jtl
+         flat=yes
+
+
+    - local_action: shell /usr/bin/smtp-cli --host  smtp.exg6.exghost.com --from="Pratik Tiwari <ptiwari@etouch.net>" \
+                          --user=ptiwari@etouch.net --pass='eTouch1234' \
+                          --port=587 \
+                          --to mnadar@etouch.net \
+                          --cc skore@etouch.net \
+                          --cc bupadhyaya@etouch.net \
+                          --subject "Jmeter Report - {{ times_now.stdout }} " \
+                          --body-plain "Please find the attached Jmeter Report" \
+                          --attach /home/administrator/reports/reports_{{ times_now.stdout }}.zip \
+                          --attach /home/administrator/reports/active_threads_over_time_{{ times_now.stdout }}.png \
+                          --attach /home/administrator/reports/report-{{ times_now.stdout }}.jtl
+
+
+
+
+
+

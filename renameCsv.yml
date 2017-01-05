@@ -1,0 +1,8 @@
+- hosts: jmeter-slaves
+  gather_facts: False
+  tasks:
+
+
+    - shell: rm -rf /usr/local/apache-jmeter-3.0/csv
+
+    - shell: mv /usr/local/apache-jmeter-3.0/csv-{{ csvScenario }} /usr/local/apache-jmeter-3.0/csv

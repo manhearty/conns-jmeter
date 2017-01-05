@@ -1,0 +1,18 @@
+---
+
+- hosts: jmeter-master:jmeter-slaves
+  sudo: yes
+  gather_facts: False
+  tasks:
+
+
+    - replace: dest=/usr/local/apache-jmeter-3.0/bin/jmeter
+            regexp='HEAP="-Xms512m -Xmx6144m"'
+            replace='HEAP="-Xms512m -Xmx6644m"'
+            backup=yes   
+
+    - replace: dest=/usr/local/apache-jmeter-3.0/bin/jmeter
+            regexp='NEW="-XX:NewSize=128m -XX:MaxNewSize=1024m"'
+            replace='NEW="-XX:NewSize=128m -XX:MaxNewSize=2048m"'
+            backup=yes
+

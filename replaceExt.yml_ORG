@@ -1,0 +1,16 @@
+- hosts: jmeter-slaves:jmeter-master
+  tasks:
+
+
+    - local_action: shell  ls -1 /home/administrator/ext/*
+      register: contents
+
+
+    - name: copy csv files to remote servers
+      copy:
+         src="{{ item }}"
+         dest=/usr/local/apache-jmeter-3.0/lib/ext
+         owner=root
+         group=root
+         mode=0644
+      with_items: contents.stdout_lines
